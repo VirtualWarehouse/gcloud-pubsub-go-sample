@@ -1,0 +1,76 @@
+// Source: https://github.com/GoogleCloudPlatform/golang-samples/blob/6eb4efbc28543e0af1602024728c7b7ae2492f15/pubsub/pubsub_quickstart/main.go
+// Copyright 2019 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+// ----------------------------------------------------------------------------
+// Modifications copyright (C) 2022 foxytanuki
+
+// [START pubsub_quickstart_create_topic]
+
+// Sample pubsub-quickstart creates a Google Cloud Pub/Sub topic.
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+	"os"
+	"time"
+
+	"cloud.google.com/go/pubsub"
+)
+
+func main() {
+	ctx := context.Background()
+
+	// Sets your Google Cloud Platform project ID.
+	projectID := os.Getenv("PUBSUB_PROJECT_ID")
+
+	// Creates a client.
+	client, err := pubsub.NewClient(ctx, projectID)
+	if err != nil {
+		log.Fatalf("Failed to create client: %v", err)
+	}
+	defer client.Close()
+
+	// Sets the id for the new topic.
+	topicID := os.Getenv("PUBSUB_TOPIC_ID")
+
+	// Creates the new topic.
+	topic, err := client.CreateTopic(ctx, topicID)
+	if err != nil {
+		log.Fatalf("Failed to create topic: %v", err)
+	}
+
+	fmt.Printf("Topic %v created.\n", topic)
+
+	// Sets the idf for the new subscription.
+	subscriptionID := os.Getenv("PUBSUB_SUBSCRIPTION_ID")
+
+	// Create the new subscription.
+	subs, err := client.CreateSubscription(ctx, subscriptionID, pubsub.SubscriptionConfig{
+		Topic:       topic,
+		AckDeadline: 10 * time.Second,
+		PushConfig: pubsub.PushConfig{
+			Endpoint: "http://sub:" + os.Getenv("PORT"),
+		},
+	})
+
+	if err != nil {
+		log.Fatalf("Failed to create subscription: %v", err)
+	}
+
+	fmt.Printf("Subscription %v created.\n", subs)
+}
+
+// [END pubsub_quickstart_create_topic]

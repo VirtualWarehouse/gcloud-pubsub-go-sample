@@ -2,20 +2,25 @@ version: "3"
 services:
   emulator:
     build:
-      context: ./modules/emulator
+      context: ./services/emulator
     ports:
       - "8085:8085"
-    command: sh ./run.sh
     env_file:
       - .env
   operator:
     build:
-      context: ./modules/operator
-  # pub:
-  #   build:
-  #     context: ./modules/pub
-  # sub:
-  #   build:
-  #     context: ./modules/sub
-  #   ports:
-  #     - "8080:8080"
+      context: ./services/operator
+    env_file:
+      - .env
+    tty: true
+  pub:
+    build:
+      context: ./services/pub
+    env_file:
+      - .env
+    tty: true
+  sub:
+    build:
+      context: ./services/sub
+    ports:
+      - "8080:8080"

@@ -17,4 +17,4 @@ RUN apt install google-cloud-sdk-pubsub-emulator -y
 
 # Run pubsub emulator
 COPY run.sh /run.sh
-CMD ["sh", "/run.sh"]
+CMD ["/run.sh"]
