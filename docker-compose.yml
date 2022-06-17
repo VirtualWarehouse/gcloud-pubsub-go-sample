@@ -1,0 +1,21 @@
+version: "3"
+services:
+  emulator:
+    build:
+      context: ./modules/emulator
+    ports:
+      - "8085:8085"
+    command: sh ./run.sh
+    env_file:
+      - .env
+  operator:
+    build:
+      context: ./modules/operator
+  # pub:
+  #   build:
+  #     context: ./modules/pub
+  # sub:
+  #   build:
+  #     context: ./modules/sub
+  #   ports:
+  #     - "8080:8080"
