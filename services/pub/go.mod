@@ -1,4 +1,4 @@
-module github.com/VirtualWarehouse/gcloud-pubsub-go-example/pub
+module github.com/VirtualWarehouse/gcloud-pubsub-go-sample/pub
 
 go 1.18
 

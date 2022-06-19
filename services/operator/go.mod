@@ -1,4 +1,4 @@
-module github.com/VirtualWarehouse/gcloud-pubsub-go-example/operator
+module github.com/VirtualWarehouse/gcloud-pubsub-go-sample/operator
 
 go 1.18
 
