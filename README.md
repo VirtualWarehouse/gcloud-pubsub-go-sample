@@ -12,6 +12,8 @@ docker-compose up
 The pubsub emulator will be running at port `8085`, and the subscriber will be running at port `8080`.
 
 ### Create a project, topic, and subscription
+Open another terminal and,
+
 ```
 docker-compose exec operator /operator
 ```
